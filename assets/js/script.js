@@ -153,6 +153,7 @@ $(".card .list-group").sortable({
   out: function(event) {
     console.log("out", event.target);
   },
+  /* SOMETHING WENT WRONG HERE, CANT FIND IT */
   update: function(event) {
     // array to store the task data in
     var tempArr = [];
@@ -177,6 +178,31 @@ $(".card .list-group").sortable({
     });
 
     console.log(tempArr);
+
+    // trim down list's ID to match object property
+    var arrName = $(this)
+    .attr("id")
+    .replace("list-", "");
+
+    // update array on tasks object and save
+    tasks[arrName] = tempArr;
+    saveTasks();
+
+    $("#trash").droppable({
+      accept: ".card .list-group-item",
+      tolerance: "touch",
+      drop: function(event, ui) {
+        console.log("drop");
+        ui.draggable.remove();
+      },
+      over: function(event, ui) {
+        console.log("over");
+      },
+      out: function(event, ui) {
+        console.log("out");
+      }
+      
+    });
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
